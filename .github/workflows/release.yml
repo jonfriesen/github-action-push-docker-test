@@ -29,9 +29,16 @@ jobs:
         echo "::debug ${CHANGELOG}"
 
     - name: TESTING2
-      run: |
-        $(git log $(git describe --tags --abbrev=0)..HEAD --pretty=format:"%h %s") > changelog.log
-        cat changelog.log
+      run: $(git log $(git describe --tags --abbrev=0)..HEAD --pretty=format:"%h %s") > changelog.log
+
+    - uses: pCYSl5EDgo/cat@master
+      id: changelog
+      with:
+        path: changelog.log
+    
+    - run: echo $TEXT
+      env:
+        TEXT: ${{ steps.changelog.outputs.text }}
 
     - name: Publish to Registry
       uses: elgohr/Publish-Docker-Github-Action@master
