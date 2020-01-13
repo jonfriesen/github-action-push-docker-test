@@ -24,7 +24,7 @@ jobs:
 
     - name: TESTING
       run: |
-        echo ::set-env name=CHANGELOG::"${git log $(git describe --tags --abbrev=0)..HEAD --pretty=format:"%h %s" > changelog.log}"
+        echo ::set-env name=CHANGELOG::$(git log $(git describe --tags --abbrev=0)..HEAD --pretty=format:"%h %s")
         echo "::debug changelog content:"
         echo "::debug ${CHANGELOG}"
 
