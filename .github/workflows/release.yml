@@ -23,10 +23,10 @@ jobs:
         tag_name: ${{ github.ref }}
 
     - name: TESTING
-      run: git log $(git describe --tags --abbrev=0)..HEAD --pretty=format:"%h %s" > changelog.log
-
-    - name: Set environment variable with changes since last tag
-      run: echo ::set-env name=CHANGELOG::$(git log $(git describe --tags --abbrev=0)..HEAD --pretty=format:"%h %s")
+      run: |
+        echo ::set-env name=CHANGELOG::"${git log $(git describe --tags --abbrev=0)..HEAD --pretty=format:"%h %s" > changelog.log}"
+        echo "::debug changelog content:"
+        echo "::debug ${CHANGELOG}"
 
     - name: TESTING2
       run: cat changelog.log
