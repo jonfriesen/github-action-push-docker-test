@@ -28,5 +28,5 @@ jobs:
         name: jonfriesen/sample-website
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-        dockerfile: build/site/Dockerfile
+        dockerfile: Dockerfile
         tags: "latest,${{ steps.get_release_by_tag.outputs.formatted_tag }}"
