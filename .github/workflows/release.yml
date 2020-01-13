@@ -23,10 +23,13 @@ jobs:
         tag_name: ${{ github.ref }}
 
     - name: TESTING
-      run: git log $(git describe --tags --abbrev=0)..HEAD --pretty=format:"%h %s"
+      run: git log $(git describe --tags --abbrev=0)..HEAD --pretty=format:"%h %s" > changelog.log
 
     - name: Set environment variable with changes since last tag
       run: echo ::set-env name=CHANGELOG::$(git log $(git describe --tags --abbrev=0)..HEAD --pretty=format:"%h %s")
+
+    - name: TESTING2
+      run: cat changelog.log
 
     - name: Publish to Registry
       uses: elgohr/Publish-Docker-Github-Action@master
