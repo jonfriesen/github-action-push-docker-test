@@ -26,11 +26,15 @@ jobs:
 
     - name: Get Release by Tag
       id: get_release_by_tag
-      uses: jonfriesen/get-release-by-tag@v0.0.11
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ github.ref }}
+      run: echo ::set-output name=formatted_tag::$(echo ${GITHUB_REF} | cut -d'/' -f3)
+
+    # - name: Get Release by Tag
+    #   id: get_release_by_tag
+    #   uses: jonfriesen/get-release-by-tag@v0.0.11
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #   with:
+    #     tag_name: ${{ github.ref }}
 
     - name: Publish to Registry
       uses: elgohr/Publish-Docker-Github-Action@master
