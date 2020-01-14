@@ -28,6 +28,12 @@ jobs:
       id: get_release_by_tag
       run: echo ::set-output name=formatted_tag::$(echo ${GITHUB_REF} | cut -d'/' -f3)
 
+    - name: Test private pull
+      id: test_private_pull
+      run: |
+        docker login --username=${{ secrets.DOCKER_USERNAME }} --password=${{ secrets.DOCKER_PASSWORD }}
+        docker pull digitalocean/appsail-deploy
+
     # - name: Get Release by Tag
     #   id: get_release_by_tag
     #   uses: jonfriesen/get-release-by-tag@v0.0.11
@@ -36,11 +42,11 @@ jobs:
     #   with:
     #     tag_name: ${{ github.ref }}
 
-    - name: Publish to Registry
-      uses: elgohr/Publish-Docker-Github-Action@master
-      with:
-        name: jonfriesen/sample-website
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
-        dockerfile: Dockerfile
-        tags: "latest,${{ steps.get_release_by_tag.outputs.formatted_tag }}"
+    # - name: Publish to Registry
+    #   uses: elgohr/Publish-Docker-Github-Action@master
+    #   with:
+    #     name: jonfriesen/sample-website
+    #     username: ${{ secrets.DOCKER_USERNAME }}
+    #     password: ${{ secrets.DOCKER_PASSWORD }}
+    #     dockerfile: Dockerfile
+    #     tags: "latest,${{ steps.get_release_by_tag.outputs.formatted_tag }}"
